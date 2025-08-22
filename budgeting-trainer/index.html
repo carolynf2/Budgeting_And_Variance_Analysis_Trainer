@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budgeting and Variance Analysis Trainer</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Budgeting and Variance Analysis Trainer</h1>
+            <p>Create budgets, simulate actual results, and learn variance analysis</p>
+        </header>
+
+        <nav class="tab-navigation">
+            <button class="tab-btn active" data-tab="budget">1. Create Budget</button>
+            <button class="tab-btn" data-tab="actuals">2. Enter Actuals</button>
+            <button class="tab-btn" data-tab="analysis">3. Variance Analysis</button>
+            <button class="tab-btn" data-tab="simulation">4. Scenario Simulation</button>
+            <button class="tab-btn" data-tab="learning">5. Learning Center</button>
+        </nav>
+
+        <main>
+            <!-- Budget Creation Tab -->
+            <section id="budget-tab" class="tab-content active">
+                <div class="section-header">
+                    <h2>Budget Creation</h2>
+                    <p>Set up your budget by entering expected revenues and expenses</p>
+                </div>
+
+                <div class="budget-forms">
+                    <div class="budget-section">
+                        <h3>Revenue Budget</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="budget-sales">Sales Revenue</label>
+                                <input type="number" id="budget-sales" step="0.01" placeholder="Expected sales">
+                            </div>
+                            <div class="form-group">
+                                <label for="budget-service">Service Revenue</label>
+                                <input type="number" id="budget-service" step="0.01" placeholder="Expected service income">
+                            </div>
+                            <div class="form-group">
+                                <label for="budget-other-revenue">Other Revenue</label>
+                                <input type="number" id="budget-other-revenue" step="0.01" placeholder="Other income">
+                            </div>
+                        </div>
+                        <div class="budget-total">
+                            <span>Total Revenue Budget: </span>
+                            <span id="total-revenue-budget">$0</span>
+                        </div>
+                    </div>
+
+                    <div class="budget-section">
+                        <h3>Operating Expenses Budget</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="budget-salaries">Salaries & Wages</label>
+                                <input type="number" id="budget-salaries" step="0.01" placeholder="Expected salaries">
+                            </div>
+                            <div class="form-group">
+                                <label for="budget-rent">Rent & Utilities</label>
+                                <input type="number" id="budget-rent" step="0.01" placeholder="Expected rent/utilities">
+                            </div>
+                            <div class="form-group">
+                                <label for="budget-marketing">Marketing & Advertising</label>
+                                <input type="number" id="budget-marketing" step="0.01" placeholder="Expected marketing costs">
+                            </div>
+                            <div class="form-group">
+                                <label for="budget-supplies">Office Supplies</label>
+                                <input type="number" id="budget-supplies" step="0.01" placeholder="Expected supplies cost">
+                            </div>
+                            <div class="form-group">
+                                <label for="budget-travel">Travel & Entertainment</label>
+                                <input type="number" id="budget-travel" step="0.01" placeholder="Expected travel costs">
+                            </div>
+                            <div class="form-group">
+                                <label for="budget-insurance">Insurance</label>
+                                <input type="number" id="budget-insurance" step="0.01" placeholder="Expected insurance">
+                            </div>
+                            <div class="form-group">
+                                <label for="budget-depreciation">Depreciation</label>
+                                <input type="number" id="budget-depreciation" step="0.01" placeholder="Expected depreciation">
+                            </div>
+                            <div class="form-group">
+                                <label for="budget-other-expenses">Other Expenses</label>
+                                <input type="number" id="budget-other-expenses" step="0.01" placeholder="Other expected costs">
+                            </div>
+                        </div>
+                        <div class="budget-total">
+                            <span>Total Expenses Budget: </span>
+                            <span id="total-expenses-budget">$0</span>
+                        </div>
+                    </div>
+
+                    <div class="budget-summary">
+                        <h3>Budget Summary</h3>
+                        <div class="summary-line">
+                            <span>Total Revenue:</span>
+                            <span id="summary-revenue-budget">$0</span>
+                        </div>
+                        <div class="summary-line">
+                            <span>Total Expenses:</span>
+                            <span id="summary-expenses-budget">$0</span>
+                        </div>
+                        <div class="summary-line profit">
+                            <span>Net Income (Budget):</span>
+                            <span id="summary-profit-budget">$0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button id="save-budget-btn">Save Budget</button>
+                    <button id="load-sample-budget-btn">Load Sample Budget</button>
+                    <button id="clear-budget-btn">Clear All</button>
+                </div>
+            </section>
+
+            <!-- Actuals Input Tab -->
+            <section id="actuals-tab" class="tab-content">
+                <div class="section-header">
+                    <h2>Actual Results</h2>
+                    <p>Enter the actual financial results to compare against your budget</p>
+                </div>
+
+                <div class="actuals-forms">
+                    <div class="budget-section">
+                        <h3>Actual Revenue</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="actual-sales">Actual Sales Revenue</label>
+                                <input type="number" id="actual-sales" step="0.01" placeholder="Actual sales">
+                            </div>
+                            <div class="form-group">
+                                <label for="actual-service">Actual Service Revenue</label>
+                                <input type="number" id="actual-service" step="0.01" placeholder="Actual service income">
+                            </div>
+                            <div class="form-group">
+                                <label for="actual-other-revenue">Actual Other Revenue</label>
+                                <input type="number" id="actual-other-revenue" step="0.01" placeholder="Actual other income">
+                            </div>
+                        </div>
+                        <div class="budget-total">
+                            <span>Total Actual Revenue: </span>
+                            <span id="total-revenue-actual">$0</span>
+                        </div>
+                    </div>
+
+                    <div class="budget-section">
+                        <h3>Actual Operating Expenses</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="actual-salaries">Actual Salaries & Wages</label>
+                                <input type="number" id="actual-salaries" step="0.01" placeholder="Actual salaries">
+                            </div>
+                            <div class="form-group">
+                                <label for="actual-rent">Actual Rent & Utilities</label>
+                                <input type="number" id="actual-rent" step="0.01" placeholder="Actual rent/utilities">
+                            </div>
+                            <div class="form-group">
+                                <label for="actual-marketing">Actual Marketing & Advertising</label>
+                                <input type="number" id="actual-marketing" step="0.01" placeholder="Actual marketing costs">
+                            </div>
+                            <div class="form-group">
+                                <label for="actual-supplies">Actual Office Supplies</label>
+                                <input type="number" id="actual-supplies" step="0.01" placeholder="Actual supplies cost">
+                            </div>
+                            <div class="form-group">
+                                <label for="actual-travel">Actual Travel & Entertainment</label>
+                                <input type="number" id="actual-travel" step="0.01" placeholder="Actual travel costs">
+                            </div>
+                            <div class="form-group">
+                                <label for="actual-insurance">Actual Insurance</label>
+                                <input type="number" id="actual-insurance" step="0.01" placeholder="Actual insurance">
+                            </div>
+                            <div class="form-group">
+                                <label for="actual-depreciation">Actual Depreciation</label>
+                                <input type="number" id="actual-depreciation" step="0.01" placeholder="Actual depreciation">
+                            </div>
+                            <div class="form-group">
+                                <label for="actual-other-expenses">Actual Other Expenses</label>
+                                <input type="number" id="actual-other-expenses" step="0.01" placeholder="Actual other costs">
+                            </div>
+                        </div>
+                        <div class="budget-total">
+                            <span>Total Actual Expenses: </span>
+                            <span id="total-expenses-actual">$0</span>
+                        </div>
+                    </div>
+
+                    <div class="budget-summary">
+                        <h3>Actual Results Summary</h3>
+                        <div class="summary-line">
+                            <span>Total Revenue:</span>
+                            <span id="summary-revenue-actual">$0</span>
+                        </div>
+                        <div class="summary-line">
+                            <span>Total Expenses:</span>
+                            <span id="summary-expenses-actual">$0</span>
+                        </div>
+                        <div class="summary-line profit">
+                            <span>Net Income (Actual):</span>
+                            <span id="summary-profit-actual">$0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button id="save-actuals-btn">Save Actuals</button>
+                    <button id="generate-random-actuals-btn">Generate Random Actuals</button>
+                    <button id="clear-actuals-btn">Clear All</button>
+                </div>
+            </section>
+
+            <!-- Variance Analysis Tab -->
+            <section id="analysis-tab" class="tab-content">
+                <div class="section-header">
+                    <h2>Variance Analysis</h2>
+                    <p>Compare budget vs actual results and understand the variances</p>
+                </div>
+
+                <div class="variance-dashboard">
+                    <div class="dashboard-summary">
+                        <div class="summary-card revenue">
+                            <h3>Revenue Variance</h3>
+                            <div class="variance-amount" id="revenue-variance">$0</div>
+                            <div class="variance-percentage" id="revenue-variance-pct">0%</div>
+                            <div class="variance-status" id="revenue-status">Neutral</div>
+                        </div>
+                        <div class="summary-card expenses">
+                            <h3>Expense Variance</h3>
+                            <div class="variance-amount" id="expense-variance">$0</div>
+                            <div class="variance-percentage" id="expense-variance-pct">0%</div>
+                            <div class="variance-status" id="expense-status">Neutral</div>
+                        </div>
+                        <div class="summary-card profit">
+                            <h3>Net Income Variance</h3>
+                            <div class="variance-amount" id="profit-variance">$0</div>
+                            <div class="variance-percentage" id="profit-variance-pct">0%</div>
+                            <div class="variance-status" id="profit-status">Neutral</div>
+                        </div>
+                    </div>
+
+                    <div class="variance-table-container">
+                        <h3>Detailed Variance Analysis</h3>
+                        <table id="variance-table" class="variance-table">
+                            <thead>
+                                <tr>
+                                    <th>Account</th>
+                                    <th>Budget</th>
+                                    <th>Actual</th>
+                                    <th>Variance ($)</th>
+                                    <th>Variance (%)</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="variance-table-body">
+                                <!-- Variance data will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="charts-container">
+                        <div class="chart-section">
+                            <h3>Budget vs Actual Comparison</h3>
+                            <canvas id="comparison-chart"></canvas>
+                        </div>
+                        <div class="chart-section">
+                            <h3>Variance Analysis</h3>
+                            <canvas id="variance-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="variance-insights">
+                        <h3>Variance Insights & Recommendations</h3>
+                        <div id="insights-content">
+                            <p>Complete your budget and actual data to see variance insights.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button id="calculate-variances-btn">Calculate Variances</button>
+                    <button id="export-analysis-btn">Export Analysis</button>
+                </div>
+            </section>
+
+            <!-- Simulation Tab -->
+            <section id="simulation-tab" class="tab-content">
+                <div class="section-header">
+                    <h2>Scenario Simulation</h2>
+                    <p>Test different scenarios to understand variance impacts</p>
+                </div>
+
+                <div class="simulation-controls">
+                    <h3>Scenario Generator</h3>
+                    <div class="scenario-options">
+                        <button class="scenario-btn" data-scenario="optimistic">Optimistic Scenario</button>
+                        <button class="scenario-btn" data-scenario="pessimistic">Pessimistic Scenario</button>
+                        <button class="scenario-btn" data-scenario="realistic">Realistic Scenario</button>
+                        <button class="scenario-btn" data-scenario="crisis">Crisis Scenario</button>
+                        <button class="scenario-btn" data-scenario="growth">Growth Scenario</button>
+                    </div>
+                    
+                    <div class="custom-scenario">
+                        <h4>Custom Scenario Adjustments</h4>
+                        <div class="adjustment-grid">
+                            <div class="adjustment-group">
+                                <label for="revenue-adjustment">Revenue Adjustment (%)</label>
+                                <input type="number" id="revenue-adjustment" min="-50" max="100" step="1" value="0">
+                            </div>
+                            <div class="adjustment-group">
+                                <label for="expense-adjustment">Expense Adjustment (%)</label>
+                                <input type="number" id="expense-adjustment" min="-50" max="100" step="1" value="0">
+                            </div>
+                            <div class="adjustment-group">
+                                <label for="salary-adjustment">Salary Adjustment (%)</label>
+                                <input type="number" id="salary-adjustment" min="-30" max="50" step="1" value="0">
+                            </div>
+                            <div class="adjustment-group">
+                                <label for="marketing-adjustment">Marketing Adjustment (%)</label>
+                                <input type="number" id="marketing-adjustment" min="-100" max="200" step="1" value="0">
+                            </div>
+                        </div>
+                        <button id="apply-custom-scenario-btn">Apply Custom Scenario</button>
+                    </div>
+                </div>
+
+                <div class="simulation-results">
+                    <h3>Scenario Results</h3>
+                    <div id="scenario-comparison">
+                        <p>Select a scenario to see the projected results.</p>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button id="reset-simulation-btn">Reset to Original</button>
+                </div>
+            </section>
+
+            <!-- Learning Center Tab -->
+            <section id="learning-tab" class="tab-content">
+                <div class="section-header">
+                    <h2>Learning Center</h2>
+                    <p>Understand budgeting concepts and variance analysis techniques</p>
+                </div>
+
+                <div class="learning-content">
+                    <div class="concept-card">
+                        <h3>Budget Variance Types</h3>
+                        <div class="concept-details">
+                            <div class="variance-type">
+                                <h4>Favorable Variance</h4>
+                                <p><strong>Revenue:</strong> Actual > Budget (Good performance)</p>
+                                <p><strong>Expenses:</strong> Actual < Budget (Cost savings)</p>
+                                <div class="example">Example: Budgeted marketing $5,000, actual $4,200 = $800 Favorable</div>
+                            </div>
+                            <div class="variance-type">
+                                <h4>Unfavorable Variance</h4>
+                                <p><strong>Revenue:</strong> Actual < Budget (Missed targets)</p>
+                                <p><strong>Expenses:</strong> Actual > Budget (Cost overruns)</p>
+                                <div class="example">Example: Budgeted sales $50,000, actual $45,000 = $5,000 Unfavorable</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="concept-card">
+                        <h3>Variance Analysis Process</h3>
+                        <div class="process-steps">
+                            <div class="step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h4>Calculate Variance</h4>
+                                    <p>Variance = Actual - Budget</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h4>Determine Significance</h4>
+                                    <p>% Variance = (Variance ÷ Budget) × 100</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h4>Investigate Causes</h4>
+                                    <p>Identify reasons for significant variances</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <h4>Take Action</h4>
+                                    <p>Implement corrective measures if needed</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="concept-card">
+                        <h3>Common Variance Causes</h3>
+                        <div class="causes-grid">
+                            <div class="cause-category">
+                                <h4>Revenue Variances</h4>
+                                <ul>
+                                    <li>Market demand changes</li>
+                                    <li>Price adjustments</li>
+                                    <li>Competitor actions</li>
+                                    <li>Seasonal fluctuations</li>
+                                    <li>Product quality issues</li>
+                                </ul>
+                            </div>
+                            <div class="cause-category">
+                                <h4>Expense Variances</h4>
+                                <ul>
+                                    <li>Inflation/price increases</li>
+                                    <li>Volume changes</li>
+                                    <li>Efficiency improvements</li>
+                                    <li>Unexpected repairs</li>
+                                    <li>Staffing changes</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="concept-card">
+                        <h3>Best Practices</h3>
+                        <div class="best-practices">
+                            <div class="practice">
+                                <h4>🎯 Set Realistic Budgets</h4>
+                                <p>Base budgets on historical data, market research, and realistic assumptions.</p>
+                            </div>
+                            <div class="practice">
+                                <h4>📊 Regular Monitoring</h4>
+                                <p>Review variances monthly or quarterly to identify trends early.</p>
+                            </div>
+                            <div class="practice">
+                                <h4>🔍 Focus on Material Variances</h4>
+                                <p>Concentrate on variances greater than 5-10% of budget amounts.</p>
+                            </div>
+                            <div class="practice">
+                                <h4>📈 Learn and Adjust</h4>
+                                <p>Use variance analysis to improve future budgeting accuracy.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
